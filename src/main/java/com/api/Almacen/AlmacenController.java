@@ -42,7 +42,6 @@ public class AlmacenController {
         }
 
         mapFactura.put("TOTAL: ", valorTotal + "");
-        mapFactura.put("FACTURA", " ");
         return ResponseEntity.status(HttpStatus.OK).body(mapFactura);
     }
 
