@@ -23,6 +23,8 @@ public class AlmacenController {
 
     @PostMapping (value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addProductos(@RequestBody List<ProductoVO> listAdd) {
+        int valorTotal = 0;
+
         List<ProductoVO> listProductos = ProductoDAO.listProductos();
         Map<String, String> mapFactura = new HashMap<>();
 
@@ -35,13 +37,18 @@ public class AlmacenController {
                 }
             }
         }
+        mapFactura.put("Valor prodductos: ", "$ " + total);
 
-        int valorTotal = (total > 70000) ? (19 * total) / 100 + valorDomicilio : total + valorDomicilio;
-        if (total > 70000) {
-            mapFactura.put("IVA: ", "19");
+        if (total > 100000) {
+            valorTotal = total + (19 * total / 100);
+            valorDomicilio = 0;
+        } else if (total > 70000) {
+            valorTotal = total + (19 * total / 100) + valorDomicilio;
+            mapFactura.put("IVA: ", "19 %");
         }
 
-        mapFactura.put("TOTAL: ", valorTotal + "");
+        mapFactura.put("Domicilio", "$ " + valorDomicilio);
+        mapFactura.put("TOTAL", "$ " + valorTotal);
         return ResponseEntity.status(HttpStatus.OK).body(mapFactura);
     }
 
