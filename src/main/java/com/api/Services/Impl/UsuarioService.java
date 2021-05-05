@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService implements IUsuarioService {
+
     private final Logger logger = LoggerFactory.getLogger(UsuarioService.class);
     private final ModelMapper modelMap = new ModelMapper();
 
@@ -49,7 +50,7 @@ public class UsuarioService implements IUsuarioService {
         } catch (Exception e) {
             logger.error("Error al obtener lista de usuarios en option: " + option);
         }
-        return (!listusers.equals(null) ? mapperLista(listusers) : null);
+        return (listusers != null) ? mapperList(listusers) : null;
     }
 
     @Override
@@ -143,7 +144,7 @@ public class UsuarioService implements IUsuarioService {
     }
 
     // ====== MAPPER LISTA
-    private List<UsuarioVO> mapperLista(List<Usuarios> list) {
+    private List<UsuarioVO> mapperList(List<Usuarios> list) {
         return list.stream().map(Usuarios -> modelMap.map(Usuarios, UsuarioVO.class)).collect(Collectors.toList());
     }
 

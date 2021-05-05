@@ -7,7 +7,9 @@ import com.api.Services.IRolService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RolService implements IRolService {
@@ -17,9 +19,20 @@ public class RolService implements IRolService {
     private final ModelMapper modelMap = new ModelMapper();
 
     @Override
+    public List<RolVO> listRoles() {
+        List<Rol> listRoles = rolRepository.findAll();
+        return (listRoles.size() > 0) ? mapperList(listRoles) : null;
+    }
+
+    @Override
     public RolVO searchRol(Long rol) {
         Optional<Rol> rolEntity = rolRepository.findById(rol);
-        return (rolEntity.isPresent() ? convertToVo(rolEntity.get()) : null);
+        return (rolEntity.isPresent()) ? convertToVo(rolEntity.get()) : null;
+    }
+
+    // ====== MAPPER LIST
+    private List<RolVO> mapperList(List<Rol> list) {
+        return list.stream().map(Rol -> modelMap.map(Rol, RolVO.class)).collect(Collectors.toList());
     }
 
     // ====== MAPPER CLASS
