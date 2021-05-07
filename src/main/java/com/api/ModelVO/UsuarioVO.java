@@ -47,7 +47,7 @@ public class UsuarioVO {
 
     // --------
 
-    @JsonProperty (value = "Rol")
+    @JsonProperty ("Rol")
     private RolVO rol;
 
     public RolVO getRol() {
