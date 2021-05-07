@@ -1,11 +1,7 @@
 package com.api.ModelVO;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import com.fasterxml.jackson.annotation.*;
+import javax.validation.constraints.*;
 
 public class UsuarioVO {
 
@@ -14,33 +10,33 @@ public class UsuarioVO {
 
     @NotEmpty (message = "Ingrese el nombre")
     @Pattern (regexp = "[A-Z a-z]*", message = "Nombres inválidos")
-    @JsonProperty("nombres")
+    @JsonProperty ("nombres")
     private String usnombres;
 
-    @JsonProperty("apellidos")
-    @NotEmpty(message = "Ingrese los apellidos")
-    @Pattern(regexp = "[A-Z a-z]*", message = "Apellidos inválidos")
-    @NotEmpty(message = "Ingrese los apellidos")
+    @JsonProperty ("apellidos")
+    @NotEmpty (message = "Ingrese los apellidos")
+    @Pattern (regexp = "[A-Z a-z]*", message = "Apellidos inválidos")
+    @NotEmpty (message = "Ingrese los apellidos")
     private String usapellidos;
 
-    @JsonProperty("telefono")
-    @Pattern(regexp = "[0-9]*", message = "Apellidos inválidos")
+    @JsonProperty ("telefono")
+    @Pattern (regexp = "[0-9]*", message = "Apellidos inválidos")
     private String ustelefono;
 
-    @JsonProperty("correo")
-    @Email(message = "El correo es inválido")
+    @JsonProperty ("correo")
+    @Email (message = "El correo es inválido")
     private String uscorreo;
 
-    @JsonProperty("correoalternativo")
+    @JsonProperty ("correoalternativo")
     private String uscorreoalternativo;
 
     @JsonIgnore
     private String usclave;
 
-    @JsonProperty("foto")
+    @JsonProperty ("foto")
     private String usfoto;
 
-    @JsonProperty("estado")
+    @JsonProperty ("estado")
     private int usestado;
 
     @JsonIgnore
@@ -51,7 +47,7 @@ public class UsuarioVO {
 
     // --------
 
-    @JsonProperty("Rol")
+    @JsonProperty (value = "Rol")
     private RolVO rol;
 
     public RolVO getRol() {
@@ -62,7 +58,7 @@ public class UsuarioVO {
         this.rol = rol;
     }
 
-    @JsonProperty("Area")
+    @JsonProperty ("Area")
     private AreaVO area;
 
     public AreaVO getArea() {
@@ -129,7 +125,7 @@ public class UsuarioVO {
         return usclave;
     }
 
-    @JsonProperty("clave")
+    @JsonProperty ("clave")
     public void setUsclave(String usclave) {
         this.usclave = usclave;
     }
@@ -155,7 +151,7 @@ public class UsuarioVO {
         return rolid;
     }
 
-    @JsonProperty("Idrol")
+    @JsonProperty ("Idrol")
     public void setRolid(long rolid) {
         this.rolid = rolid;
     }
@@ -165,7 +161,7 @@ public class UsuarioVO {
         return arid;
     }
 
-    @JsonProperty("IdArea")
+    @JsonProperty ("IdArea")
     public void setArid(long arid) {
         this.arid = arid;
     }

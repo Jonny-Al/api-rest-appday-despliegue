@@ -67,15 +67,14 @@ public class UsuarioService implements IUsuarioService {
 
     @Override
     public String createUser(UsuarioVO usvo) {
-        String response = "";
+        String response = "No agregado";
         try {
             if (rolService.searchRol(usvo.getRolid()) != null && areaService.searchArea(usvo.getArid()) != null) {
                 if (searchUser(usvo.getUscorreo()) == null) {
                     Usuarios usentity = convertToEntity(usvo);
                     usentity.setUscorreoalternativo(null);
                     usentity.setUsclave(Base64.getEncoder().encodeToString(usvo.getUsclave().getBytes()));
-                    usentity.setRol(null);
-                    usentity.setArea(null);
+
                     usrepository.save(usentity);
                     response = "Agregado";
                 } else {

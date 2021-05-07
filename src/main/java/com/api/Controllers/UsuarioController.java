@@ -14,7 +14,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -59,14 +58,9 @@ public class UsuarioController {
     // Registrar usuario
     @PostMapping (value = "/add", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<String> createUser(@Valid @RequestBody UsuarioVO usvo, BindingResult result) {
-        if (result.hasErrors() || usvo.getUsclave() == null || usvo.getRolid() < 1 || usvo.getArid() < 1) {
+        if (result.hasErrors() || usvo.getUsclave() == null) {
             if (usvo.getUsclave() == null) {
                 result.rejectValue("usclave", "400", "La clave es obligatoria");
-            } else if (usvo.getRolid() < 1) {
-                result.rejectValue("rolid", "400", "Seleccione el rol");
-            }
-            if (usvo.getArid() < 1) {
-                result.rejectValue("arid", "400", "Seleccione el area");
             }
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Util.errorsJson(result));
         }
@@ -75,7 +69,6 @@ public class UsuarioController {
     }
 
     // Actualizar usuario
-    @Scheduled(fixedRate = 2000)
     @PutMapping (value = "/update/information/{type}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<String> updateInformation(@Valid @RequestBody UsuarioVO usvo, BindingResult result, @PathVariable String type) {
         if (result.hasErrors()) {

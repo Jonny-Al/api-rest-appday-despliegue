@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 @Entity
 public class Usuarios {
+
     @Id
     @Column (name = "Us_Id", insertable = false)
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -43,7 +44,7 @@ public class Usuarios {
     // ---- INNER JOINS ----//
 
     // - TABLA ROL
-    @ManyToOne (optional = false)
+    @ManyToOne
     @JoinColumn (name = "Rol_Id", insertable = false, updatable = false)
     private Rol rol;
 
@@ -51,22 +52,14 @@ public class Usuarios {
         return rol;
     }
 
-    public void setRol(Rol rol) {
-        this.rol = rol;
-    }
-
     // - TABLA AREA
 
-    @ManyToOne (optional = false)
+    @ManyToOne
     @JoinColumn (name = "Ar_Id", insertable = false, updatable = false)
     private Areas area;
 
     public Areas getArea() {
         return area;
-    }
-
-    public void setArea(Areas area) {
-        this.area = area;
     }
 
     // ----  END INNER JOINS ----//
