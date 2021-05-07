@@ -28,7 +28,7 @@ public class UsuarioVO {
     private String ustelefono;
 
     @JsonProperty("correo")
-    @Email
+    @Email(message = "El correo es inválido")
     private String uscorreo;
 
     @JsonProperty("correoalternativo")
@@ -41,7 +41,6 @@ public class UsuarioVO {
     private String usfoto;
 
     @JsonProperty("estado")
-    @Min (1)
     private int usestado;
 
     @JsonIgnore

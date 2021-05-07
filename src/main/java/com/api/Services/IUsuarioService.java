@@ -10,7 +10,7 @@ public interface IUsuarioService {
 
     String createUser(UsuarioVO usvo);
 
-    String updateInformation(UsuarioVO usvo, String type, long id);
+    String updateInformation(UsuarioVO usvo, String type);
 
     Boolean updatePassword(long id, String passwordOld, String passwordNew);
 

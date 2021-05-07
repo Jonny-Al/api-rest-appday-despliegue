@@ -74,14 +74,16 @@ public class UsuarioService implements IUsuarioService {
                     Usuarios usentity = convertToEntity(usvo);
                     usentity.setUscorreoalternativo(null);
                     usentity.setUsclave(Base64.getEncoder().encodeToString(usvo.getUsclave().getBytes()));
+                    usentity.setRol(null);
+                    usentity.setArea(null);
                     usrepository.save(usentity);
                     response = "Agregado";
                 } else {
-                    response = "ExisteCorreo";
+                    response = "Existe correo";
                     logger.warn("Para add el correo: " + usvo.getUscorreo() + " ya existe.");
                 }
             } else {
-                response = "AreaORolInvalido";
+                response = "Area O Rol Inválido";
                 logger.warn("El area: " + usvo.getArid() + " o " + "El rol: " + usvo.getRolid() + " no existen");
             }
         } catch (Exception e) {
@@ -107,35 +109,30 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public String updateInformation(UsuarioVO usvo, String type, long id) {
-        String response = "NoActualizado";
+    public String updateInformation(UsuarioVO usvo, String type) {
+        String response = "No Actualizado";
         try {
-            UsuarioVO vo = searchUser(id); // -> es el id del que esta actualizando
+            UsuarioVO vo = searchUser(usvo.getUsid()); // -> es el id del que esta actualizando
 
-            if (vo != null && searchUser(usvo.getUsid()) != null) {
-
+            if (vo != null) {
                 if (type.equalsIgnoreCase("Personal")) {
                     // Para actualizar informacion personal
-                    if (id == usvo.getUsid()) {
-                        usrepository.updateInformationPersonal(usvo.getUsid(), usvo.getUsnombres(), usvo.getUsapellidos(), usvo.getUscorreoalternativo(), usvo.getUstelefono());
-                        response = "Actualizado";
-                    } else {
-                        response = "NoPuedeActualizar";
-                    }
+                    usrepository.updateInformationPersonal(usvo.getUsid(), usvo.getUsnombres(), usvo.getUsapellidos(), usvo.getUscorreoalternativo(), usvo.getUstelefono());
+                    response = "Actualizado";
                 } else if (type.equalsIgnoreCase("Laboral")) {
                     if (rolService.searchRol(usvo.getRolid()) != null && areaService.searchArea(usvo.getArid()) != null) {
                         if (vo.getRolid() == 1 || vo.getRolid() == 2 && vo.getArid() == usvo.getArid() || vo.getArid() == 1) {
                             usrepository.updateInformatioLaboral(usvo.getUsid(), usvo.getUscorreo(), usvo.getArid(), usvo.getRolid());
                             response = "Actualizado";
                         } else {
-                            response = "NoPuedeActualizar";
+                            response = "No Puede Actualizar";
                         }
                     } else {
-                        response = "AreaORolInvalido";
+                        response = "Area O Rol Inválido";
                     }
                 }
             } else {
-                response = "InformaciónInvalida";
+                response = "Información Inválida";
             }
         } catch (Exception e) {
             logger.error("Error al actualizar usuario: " + e);
