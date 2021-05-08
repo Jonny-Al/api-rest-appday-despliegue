@@ -4,15 +4,18 @@ import com.api.ModelVO.UsuarioVO;
 import java.util.List;
 
 public interface IUsuarioService {
+
     List<UsuarioVO> listUsers(String option);
 
     UsuarioVO searchUser(long id);
 
-    String createUser(UsuarioVO usvo);
+    UsuarioVO searchUser(String email);
 
-    String updateInformation(UsuarioVO usvo, String type);
+    String createUser(UsuarioVO usvo);
 
     Boolean updatePassword(long id, String passwordOld, String passwordNew);
 
-    UsuarioVO searchUser(String email);
+    String updateInformation(UsuarioVO usvo, String type);
+
+    boolean deleteUser(long id);
 }

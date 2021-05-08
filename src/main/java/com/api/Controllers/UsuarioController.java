@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
-@CrossOrigin (origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping ("/api/users")
+@CrossOrigin (origins = "http://localhost:4200")
 public class UsuarioController {
 
     @Value ("#{'${path.api.users}'}")
@@ -35,28 +35,28 @@ public class UsuarioController {
     IUsuarioService service;
 
     // Lista de usuarios
-    @GetMapping (value = "/list/{option}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping (path = "/list/{option}", produces = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<Object> listUsers(@PathVariable String option) {
         List<UsuarioVO> listusers = service.listUsers(option);
         return ResponseEntity.status(listusers != null ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(listusers != null ? listusers : Util.messageJson("Sin información"));
     }
 
     // Consulta usuario por id
-    @GetMapping (value = "/search/{id:[\\d]+}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping (path = "/search/{id:[\\d]+}", produces = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<Object> searchUser(@PathVariable long id) {
         UsuarioVO usvo = service.searchUser(id);
         return ResponseEntity.status(usvo != null ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(usvo != null ? usvo : Util.messageJson("Este usuario no existe"));
     }
 
     // Consulta usuario por correo
-    @GetMapping (value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping (path = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<Object> searchUser(@RequestParam String email) {
         UsuarioVO usvo = service.searchUser(email);
         return ResponseEntity.status(usvo != null ? HttpStatus.OK : HttpStatus.NOT_FOUND).body(usvo != null ? usvo : Util.messageJson("Información no encontrada"));
     }
 
     // Registrar usuario
-    @PostMapping (value = "/add", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping (path = "/add", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<String> createUser(@Valid @RequestBody UsuarioVO usvo, BindingResult result) {
         if (result.hasErrors() || usvo.getUsclave() == null) {
             if (usvo.getUsclave() == null) {
@@ -69,10 +69,10 @@ public class UsuarioController {
     }
 
     // Actualizar usuario
-    @PutMapping (value = "/update/information/{type}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping (path = "/update/information/{type}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     private ResponseEntity<String> updateInformation(@Valid @RequestBody UsuarioVO usvo, BindingResult result, @PathVariable String type) {
         if (result.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Util.errorsJson(result));
+            return ResponseEntity.status(HttpStatus.OK).body(Util.errorsJson(result));
         }
         String update = service.updateInformation(usvo, type);
         return ResponseEntity.status(update.equals("Actualizado") ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(Util.messageJson(update));
@@ -83,6 +83,12 @@ public class UsuarioController {
     private ResponseEntity<Boolean> updatePassword(@RequestParam long id, @RequestParam String passwordOld, @RequestParam String passwordNew) {
         boolean updatepassword = service.updatePassword(id, passwordOld, passwordNew);
         return ResponseEntity.status(updatepassword ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(updatepassword);
+    }
+
+    @DeleteMapping ("/delete")
+    private ResponseEntity<Boolean> deleteUser(@RequestParam long id) {
+        boolean delete = service.deleteUser(id);
+        return ResponseEntity.status(delete == true ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(delete);
     }
 
     // ============ METODOS QUE CONSUMEN API PARA HACER PRUEBAS DE CONSUMO CON JAVA

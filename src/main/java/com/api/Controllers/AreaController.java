@@ -22,7 +22,7 @@ public class AreaController {
     IAreaService areaService;
 
     // Lista de areas
-    @GetMapping (value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping (path = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> listAreas() {
         List<AreaVO> listareas = areaService.listAreas();
         return ResponseEntity.status(HttpStatus.OK).body(listareas != null ? listareas : Util.messageJson("Sin información"));

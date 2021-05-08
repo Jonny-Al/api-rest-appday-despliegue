@@ -62,7 +62,7 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public UsuarioVO searchUser(String email) {
         Usuarios usentity = usrepository.searchEmail(email);
-        return (usentity != null) ? convertToVO(usrepository.searchEmail(email)) : null;
+        return (usentity != null) ? convertToVO(usentity) : null;
     }
 
     @Override
@@ -139,7 +139,23 @@ public class UsuarioService implements IUsuarioService {
         return response;
     }
 
-    // ====== MAPPER LISTA
+    @Override
+    public boolean deleteUser(long id) {
+        try {
+            if (searchUser(id) != null) {
+                usrepository.deleteById(id);
+                logger.info("Se elimino el usuario con ID: " + id);
+                return true;
+            } else {
+                logger.warn("El usuario a eliminar con ID: " + id + " no existe");
+            }
+        } catch (Exception e) {
+            logger.error("Error al eliminar el usuario: " + id + " por error: ", e);
+        }
+        return false;
+    }
+
+    // ====== MAPPER LIST
     private List<UsuarioVO> mapperList(List<Usuarios> list) {
         return list.stream().map(Usuarios -> modelMap.map(Usuarios, UsuarioVO.class)).collect(Collectors.toList());
     }

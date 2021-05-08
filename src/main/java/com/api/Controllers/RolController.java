@@ -21,7 +21,7 @@ public class RolController {
     @Autowired
     IRolService rolService;
 
-    @GetMapping (value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping (path = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> listRoles() {
         List<RolVO> listRoles = rolService.listRoles();
         return ResponseEntity.status(HttpStatus.OK).body(listRoles != null ? listRoles : Util.messageJson("Sin información"));

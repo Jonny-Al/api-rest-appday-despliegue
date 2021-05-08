@@ -9,9 +9,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 public class Util {
-    private static final JSONObject json = new JSONObject();
+    private static JSONObject json = null;
 
     public static String errorsJson(BindingResult result) {
+        json = new JSONObject();
         for (FieldError error : result.getFieldErrors()) {
             json.put(error.getField(), error.getDefaultMessage());
         }
@@ -19,6 +20,7 @@ public class Util {
     }
 
     public static String messageJson(String value) {
+        json = new JSONObject();
         return json.put("message", value).toString();
     }
 
