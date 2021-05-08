@@ -28,6 +28,7 @@ public class Pse {
     private static final Logger logger = LoggerFactory.getLogger(Pse.class);
     private static final ObjectMapper objMap = new ObjectMapper();
     private static final RestTemplate restTemplate = new RestTemplate();
+    // https://secure.payco.co/restpagos/pse/bancos.json?public_key=e5b73685f785d8115ba51f0a8494af82
 
     @GetMapping (value = "/banks", produces = MediaType.APPLICATION_JSON_VALUE)
     public void listBancos() {

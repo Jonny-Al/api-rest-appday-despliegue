@@ -2,6 +2,7 @@ package com.api.ModelVO;
 
 import com.fasterxml.jackson.annotation.*;
 import javax.validation.constraints.*;
+import net.bytebuddy.implementation.bind.annotation.Default;
 
 public class UsuarioVO {
 
@@ -24,13 +25,13 @@ public class UsuarioVO {
     private String ustelefono;
 
     @JsonProperty ("correo")
-    @Email (message = "El correo es inválido")
+    @NotEmpty (message = "Ingrese el correo")
+    @Pattern (regexp = ".+@.+\\..+", message = "El correo es inválido")
     private String uscorreo;
 
     @JsonProperty ("correoalternativo")
     private String uscorreoalternativo;
 
-    @JsonIgnore
     private String usclave;
 
     @JsonProperty ("foto")
@@ -39,10 +40,8 @@ public class UsuarioVO {
     @JsonProperty ("estado")
     private int usestado;
 
-    @JsonIgnore
     private long rolid;
 
-    @JsonIgnore
     private long arid;
 
     // --------
@@ -125,7 +124,7 @@ public class UsuarioVO {
         return usclave;
     }
 
-    @JsonProperty ("clave")
+    @JsonSetter ("clave")
     public void setUsclave(String usclave) {
         this.usclave = usclave;
     }
@@ -151,7 +150,7 @@ public class UsuarioVO {
         return rolid;
     }
 
-    @JsonProperty ("Idrol")
+    @JsonSetter ("Idrol")
     public void setRolid(long rolid) {
         this.rolid = rolid;
     }
@@ -161,7 +160,7 @@ public class UsuarioVO {
         return arid;
     }
 
-    @JsonProperty ("IdArea")
+    @JsonSetter ("IdArea")
     public void setArid(long arid) {
         this.arid = arid;
     }
