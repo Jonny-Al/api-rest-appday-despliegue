@@ -88,7 +88,7 @@ public class UsuarioController {
     @DeleteMapping ("/delete")
     private ResponseEntity<Boolean> deleteUser(@RequestParam long id) {
         boolean delete = service.deleteUser(id);
-        return ResponseEntity.status(delete == true ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(delete);
+        return ResponseEntity.status(delete ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(delete);
     }
 
     // ============ METODOS QUE CONSUMEN API PARA HACER PRUEBAS DE CONSUMO CON JAVA
