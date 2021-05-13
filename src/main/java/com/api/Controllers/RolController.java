@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @CrossOrigin (origins = "*", maxAge = 3600)
@@ -25,6 +22,12 @@ public class RolController {
     public ResponseEntity<Object> listRoles() {
         List<RolVO> listRoles = rolService.listRoles();
         return ResponseEntity.status(HttpStatus.OK).body(listRoles != null ? listRoles : Util.messageJson("Sin información"));
+    }
+
+    @GetMapping (path = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> filterRol(@RequestParam String rol) {
+        List<RolVO> filter = rolService.filterRol(rol);
+        return ResponseEntity.status(HttpStatus.OK).body(filter.size() > 0 ? filter : Util.messageJson("Sin información"));
     }
 
 }

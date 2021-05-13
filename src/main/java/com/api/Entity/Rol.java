@@ -6,12 +6,10 @@ import javax.persistence.*;
 @Entity
 public class Rol {
     @Id
-    @JsonProperty ("idrol")
     @Column (name = "Rol_Id", insertable = false)
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long rolId;
 
-    @JsonProperty ("cargo")
     @Column (name = "Rol_Nombre")
     private String rolNombre;
 

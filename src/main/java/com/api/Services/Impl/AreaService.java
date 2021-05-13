@@ -30,6 +30,11 @@ public class AreaService implements IAreaService {
         return (areaEntity.isPresent()) ? convertToVo(areaEntity.get()) : null;
     }
 
+    @Override
+    public List<AreaVO> filerAreas(String area) {
+        return mapperList(areaRepository.filerAreas(area));
+    }
+
     // ====== MAPPER LISTA
     public List<AreaVO> mapperList(List<Areas> list) {
         return list.stream().map(Areas -> modelMap.map(Areas, AreaVO.class)).collect(Collectors.toList());

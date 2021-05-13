@@ -7,4 +7,6 @@ public interface IRolService {
     RolVO searchRol(Long rol);
 
     List<RolVO> listRoles();
+
+    List<RolVO> filterRol(String rol);
 }

@@ -28,4 +28,10 @@ public class AreaController {
         return ResponseEntity.status(HttpStatus.OK).body(listareas != null ? listareas : Util.messageJson("Sin información"));
     }
 
+    @GetMapping (path = "/filter", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> filterAreas(String area) {
+        List<AreaVO> filter = areaService.filerAreas(area);
+        return ResponseEntity.status(HttpStatus.OK).body(filter.size() > 0 ? filter : Util.messageJson("Sin información"));
+    }
+
 }

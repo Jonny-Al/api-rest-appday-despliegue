@@ -14,7 +14,7 @@ public interface IUsuarioRepository extends JpaRepository<Usuarios, Long> {
     @Query ("SELECT u FROM Usuarios u WHERE u.usestado = 2")
     List<Usuarios> listUsersInactive();
 
-    @Query ("SELECT u FROM Usuarios u where u.uscorreo = :correo OR u.uscorreoalternativo = :correo")
+    @Query ("SELECT u FROM Usuarios u WHERE u.uscorreo = :correo OR u.uscorreoalternativo = :correo")
     Usuarios searchEmail(String correo);
 
     @Procedure ("Us_UpdatePassword")

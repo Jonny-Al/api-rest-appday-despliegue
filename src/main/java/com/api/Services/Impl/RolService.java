@@ -30,6 +30,12 @@ public class RolService implements IRolService {
         return (rolEntity.isPresent()) ? convertToVo(rolEntity.get()) : null;
     }
 
+    // Filtra los roles con letras que coinciden con -> rolfilter
+    @Override
+    public List<RolVO> filterRol(String rol) {
+        return mapperList(rolRepository.filterRol(rol));
+    }
+
     // ====== MAPPER LIST
     private List<RolVO> mapperList(List<Rol> list) {
         return list.stream().map(Rol -> modelMap.map(Rol, RolVO.class)).collect(Collectors.toList());
