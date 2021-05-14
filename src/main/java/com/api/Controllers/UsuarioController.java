@@ -85,6 +85,8 @@ public class UsuarioController {
         return ResponseEntity.status(updatepassword ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(updatepassword);
     }
 
+    @PutMapping("/update/")
+
     @DeleteMapping ("/delete")
     private ResponseEntity<Boolean> deleteUser(@RequestParam long id) {
         boolean delete = service.deleteUser(id);

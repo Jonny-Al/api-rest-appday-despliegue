@@ -129,12 +129,19 @@ public class UsuarioService implements IUsuarioService {
                     } else {
                         response = "Area O Rol Inválido";
                     }
+                } else if (type.equalsIgnoreCase("Completa")) {
+                    try {
+                        usrepository.save(convertToEntity(usvo));
+                        response = "Actualizado";
+                    } catch (Exception e) {
+                        logger.error("Error al actualizar informacion "+ type + " del usuario en service updateInformation" + e);
+                    }
                 }
             } else {
                 response = "Información Inválida";
             }
         } catch (Exception e) {
-            logger.error("Error al actualizar usuario: " + e);
+            logger.error("Error al actualizar informacion "+ type + " del usuario en service updateInformation" + e);
         }
         return response;
     }

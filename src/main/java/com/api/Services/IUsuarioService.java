@@ -1,5 +1,6 @@
 package com.api.Services;
 
+import com.api.Entity.Usuarios;
 import com.api.ModelVO.UsuarioVO;
 import java.util.List;
 
