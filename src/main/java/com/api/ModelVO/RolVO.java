@@ -3,7 +3,7 @@ package com.api.ModelVO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RolVO {
-    @JsonProperty ("Idrol")
+    @JsonProperty ("IdRol")
     private long rolId;
 
     @JsonProperty("cargo")

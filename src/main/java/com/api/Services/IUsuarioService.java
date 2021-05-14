@@ -18,5 +18,8 @@ public interface IUsuarioService {
 
     String updateInformation(UsuarioVO usvo, String type);
 
+    UsuarioVO updateStatus(int estado, long id);
+
     boolean deleteUser(long id);
+
 }

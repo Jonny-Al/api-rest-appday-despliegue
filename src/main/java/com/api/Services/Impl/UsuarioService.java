@@ -48,7 +48,7 @@ public class UsuarioService implements IUsuarioService {
 
             }
         } catch (Exception e) {
-            logger.error("Error al obtener lista de usuarios en option: " + option);
+            logger.error("Error al obtener lista de usuarios en service con option: " + option);
         }
         return (listusers != null) ? mapperList(listusers) : null;
     }
@@ -86,7 +86,7 @@ public class UsuarioService implements IUsuarioService {
                 logger.warn("El area: " + usvo.getArid() + " o " + "El rol: " + usvo.getRolid() + " no existen");
             }
         } catch (Exception e) {
-            logger.error("Error al registrar usuario: " + e);
+            logger.error("Error al registrar usuario en service createUser: " + e);
         }
         return response;
     }
@@ -102,7 +102,7 @@ public class UsuarioService implements IUsuarioService {
                 return true;
             }
         } catch (Exception e) {
-            logger.error("Error al actualizar clave: " + e);
+            logger.error("Error al actualizar clave en service updatePassword: " + e);
         }
         return false;
     }
@@ -134,16 +134,38 @@ public class UsuarioService implements IUsuarioService {
                         usrepository.save(convertToEntity(usvo));
                         response = "Actualizado";
                     } catch (Exception e) {
-                        logger.error("Error al actualizar informacion "+ type + " del usuario en service updateInformation" + e);
+                        logger.error("Error al actualizar informacion " + type + " del usuario en service updateInformation" + e);
                     }
                 }
             } else {
                 response = "Información Inválida";
             }
         } catch (Exception e) {
-            logger.error("Error al actualizar informacion "+ type + " del usuario en service updateInformation" + e);
+            logger.error("Error al actualizar informacion " + type + " del usuario en service updateInformation" + e);
         }
         return response;
+    }
+
+    @Override
+    public UsuarioVO updateStatus(int estado, long id) {
+        UsuarioVO usvo = null;
+        try {
+            Optional<Usuarios> entity = usrepository.findById(id);
+            if (entity.isPresent()) {
+                if (entity.get().getUsestado() != estado) { // Valida si el estado enviado es el mismo que ya tiene para evitar actualizacion innecesaria
+                    entity.get().setUsestado(estado);
+                    usvo = convertToVO(usrepository.save(entity.get()));
+                    logger.info("Se actualizo el estado de: " + usvo.getUsnombres() + " al estado: " + estado);
+                } else {
+                    usvo = convertToVO(entity.get()); // Al estado ser igual solo mappea la entity en la class para no retorna el vo en null
+                }
+            } else {
+                logger.warn("No se encontro el usuario con id: " + id + " para actualizar a estado: " + estado);
+            }
+        } catch (Exception e) {
+            logger.error("Error al actualizar estado de usuario en service updateStatus: ", e);
+        }
+        return usvo;
     }
 
     @Override
@@ -161,6 +183,7 @@ public class UsuarioService implements IUsuarioService {
         }
         return false;
     }
+
 
     // ====== MAPPER LIST
     private List<UsuarioVO> mapperList(List<Usuarios> list) {

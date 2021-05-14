@@ -85,7 +85,12 @@ public class UsuarioController {
         return ResponseEntity.status(updatepassword ? HttpStatus.OK : HttpStatus.BAD_REQUEST).body(updatepassword);
     }
 
-    @PutMapping("/update/")
+    // Actualiza el estado del usuario
+    @PutMapping ("/update/status/{status}")
+    public ResponseEntity<Object> updateStatus(@PathVariable int status, @RequestParam long id) {
+        UsuarioVO usvo = service.updateStatus(status, id);
+        return ResponseEntity.status(HttpStatus.OK).body(usvo != null ? usvo : Util.messageJson("No actualizado"));
+    }
 
     @DeleteMapping ("/delete")
     private ResponseEntity<Boolean> deleteUser(@RequestParam long id) {

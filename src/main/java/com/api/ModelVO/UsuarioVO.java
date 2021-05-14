@@ -150,7 +150,7 @@ public class UsuarioVO {
         return rolid;
     }
 
-    @JsonSetter ("Idrol")
+    @JsonSetter ("IdRol")
     public void setRolid(long rolid) {
         this.rolid = rolid;
     }
