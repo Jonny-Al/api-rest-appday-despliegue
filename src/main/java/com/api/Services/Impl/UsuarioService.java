@@ -74,7 +74,6 @@ public class UsuarioService implements IUsuarioService {
                     Usuarios usentity = convertToEntity(usvo);
                     usentity.setUscorreoalternativo(null);
                     usentity.setUsclave(Base64.getEncoder().encodeToString(usvo.getUsclave().getBytes()));
-
                     usrepository.save(usentity);
                     response = "Agregado";
                 } else {
